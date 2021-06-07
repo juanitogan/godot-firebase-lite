@@ -1,0 +1,110 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node",
+"class": "Firebase",
+"language": "GDScript",
+"path": "res://firebase_app_lite/firebase.gd"
+}, {
+"base": "Node",
+"class": "FirebaseApp",
+"language": "GDScript",
+"path": "res://firebase_app_lite/app.gd"
+}, {
+"base": "Node",
+"class": "FirebaseAuth",
+"language": "GDScript",
+"path": "res://firebase_auth_lite/auth.gd"
+}, {
+"base": "Reference",
+"class": "FirebaseDataSnapshot",
+"language": "GDScript",
+"path": "res://firebase_database_lite/data_snapshot.gd"
+}, {
+"base": "Node",
+"class": "FirebaseDatabase",
+"language": "GDScript",
+"path": "res://firebase_database_lite/database.gd"
+}, {
+"base": "Reference",
+"class": "FirebaseError",
+"language": "GDScript",
+"path": "res://firebase_app_lite/error.gd"
+}, {
+"base": "FirebaseEventProcessorLite",
+"class": "FirebaseEventProcessor",
+"language": "GDScript",
+"path": "res://firebase_database_lite/event_processor.gd"
+}, {
+"base": "Reference",
+"class": "FirebaseEventProcessorLite",
+"language": "GDScript",
+"path": "res://firebase_database_lite/event_processor_lite.gd"
+}, {
+"base": "Node",
+"class": "FirebaseReference",
+"language": "GDScript",
+"path": "res://firebase_database_lite/reference.gd"
+}, {
+"base": "Reference",
+"class": "FirebaseUser",
+"language": "GDScript",
+"path": "res://firebase_auth_lite/user.gd"
+}, {
+"base": "",
+"class": "GitAPI",
+"language": "NativeScript",
+"path": "res://git_api.gdns"
+}, {
+"base": "Node",
+"class": "HTTPSSEClient",
+"language": "GDScript",
+"path": "res://firebase_database_lite/http_sse_client.gd"
+} ]
+_global_script_class_icons={
+"Firebase": "res://firebase_app_lite/icon.png",
+"FirebaseApp": "res://firebase_app_lite/icon.png",
+"FirebaseAuth": "res://firebase_auth_lite/icon.png",
+"FirebaseDataSnapshot": "res://firebase_database_lite/icon.png",
+"FirebaseDatabase": "res://firebase_database_lite/icon.png",
+"FirebaseError": "res://firebase_app_lite/icon.png",
+"FirebaseEventProcessor": "res://firebase_database_lite/icon.png",
+"FirebaseEventProcessorLite": "res://firebase_database_lite/icon.png",
+"FirebaseReference": "res://firebase_database_lite/icon.png",
+"FirebaseUser": "res://firebase_auth_lite/icon.png",
+"GitAPI": "",
+"HTTPSSEClient": "res://firebase_database_lite/icon.png"
+}
+
+[application]
+
+config/name="GodotFirebaseLite"
+run/main_scene="res://tester_app.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+firebase="*res://firebase_app_lite/firebase.gd"
+
+[gdnative]
+
+singletons=[ "res://git_api.gdnlib" ]
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+environment/default_environment="res://default_env.tres"
