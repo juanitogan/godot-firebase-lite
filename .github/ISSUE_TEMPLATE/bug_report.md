@@ -12,8 +12,8 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Example code and steps to reproduce the behavior:
-```
-example code
+```gdscript
+# paste example code here
 ```
 1. Run '...'
 2. Click on '....'
