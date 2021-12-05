@@ -10,7 +10,7 @@
 extends Node
 class_name Firebase, "icon.png"
 
-const SDK_VERSION = "0.1.0"  # The current SDK version.
+const SDK_VERSION = "0.1.1"  # The current SDK version.
 
 #var apps : Array = []  # FirebaseApp; deprecated: use Node.get_children()/get_node() instead
 

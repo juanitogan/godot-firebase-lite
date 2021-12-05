@@ -326,7 +326,8 @@ func enable_listener() -> void:
 func disable_listener() -> void:
 	if _listener:
 		_listener.close()
-		#TODO: remove and destroy
+		_listener.queue_free()
+		_listener = null
 
 
 ################################################################################

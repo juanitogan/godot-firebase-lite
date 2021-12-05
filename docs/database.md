@@ -30,7 +30,7 @@ See [Installation & Setup in JavaScript](https://firebase.google.com/docs/databa
 | `get_reference(<path>)`      | `FirebaseReference` | Returns a ref to the specified node in the database.  **WARNING: Not fully tested.** |
 | `get_reference_lite(<path>)` | `FirebaseReference` | Returns a ref to the specified node in the database.  Limited support for array fakies. |
 
-If not using [Firebase array fakies](https://firebase.googleblog.com/2014/04/best-practices-arrays-in-firebase.html) (and you shouldn't) always use `get_reference_lite()` instead of `get_reference()`.  Array fakies are a headache to code for.  The light version of this method still supports them as whole objects in case that fits your use case for them.  Otherwise, the heavier version makes a good effort in supporting array fakies in all sorts of crazy ways... but testing it fully has exhausted me a bit too much for a feature I don't need.
+You should always use `get_reference_lite()` instead of `get_reference()` if not using [Firebase array fakies](https://firebase.googleblog.com/2014/04/best-practices-arrays-in-firebase.html) (and you shouldn't be using them).  Array fakies are a headache to code for behind the scenes.  If you do use array fakies, the lite version of this method still supports them somewhat (as whole objects) in case that fits your use case for them.  Otherwise, the heavier version makes a good effort in supporting array fakies in all sorts of crazy ways... but testing it fully has exhausted me a bit too much for a feature I don't need.  Too many edge cases.
 
 ### Source JavaScript docs
 
@@ -83,7 +83,7 @@ You can reference the root or child location in your Database by calling `fireba
 | Method | Returns | Typical usage |
 |--------|---------|---------------|
 | `disable_listener()`  | void | Turn off all listener signals. |
-| 🔻`enable_listener()` | void | Set up a realtime listener at the ref's path. (yielded) |
+| 🔻`enable_listener()` | void | Set up a realtime listener at the ref's path. |
 
 ### Listening to data changes
 
@@ -96,7 +96,7 @@ ref.connect("child_removed", self, "_do_something_elser")
 ref.enable_listener()
 ```
 
-You can skip the yield to `enable_listener()` if all you need from it is the signaling (which can be connect beforehand if you like).  Note: enabling a listener will trigger a `"child_added"` signal for each existing child, followed by a single `"value_changed"` signal.  If you don't want these initial `"child_added"` signals, connect that signal after `enable_listener()` has finished (by yielding to it or by waiting for the first `"value_changed"` signal).
+Like shown above, you can skip the yield on `enable_listener()` if you don't need to wait for initial signaling to finish.  Signals can be connected before or after enabling the listener, depending on your needs.  Note that enabling a listener will trigger a `"child_added"` signal for each existing child, followed by a single `"value_changed"` signal.  If you don't need these initial `"child_added"` signals, connect the `"child_added"` signal after `enable_listener()` has finished (by yielding it until `"completed"`, or by connecting and waiting for that first `"value_changed"` signal).
 
 ### Source JavaScript docs
 

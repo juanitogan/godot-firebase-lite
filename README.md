@@ -2,7 +2,7 @@
 
 > Yet another Godot package for Firebase.  The dumb one that simply works.
 
-This project targets [Firebase Realtime Database](https://firebase.google.com/products/realtime-database) only.
+This project currently targets [Firebase Realtime Database](https://firebase.google.com/products/realtime-database) only.
 
 I have no current plans for Cloud Firestore or Cloud Storage.  Firebase Authentication is included with limited functionality (limited in addition to being lite: email/password and anon auths only; no email link, phone, or OAuth yet).
 
@@ -17,9 +17,9 @@ Skip this section if you are bored already.
 
 _"It's clear you don't really understand how any of this works, so yeah, we'll lecture you because we, the folks who know a lot better than you..."_
 
-Never mind that `firebase-auth.js` is an optional package in the JavaScript SDK.  No one can fix naive braggarts and almighty gatekeeper attitudes, so I made no further defense and built what I needed instead.
+Never mind that `firebase-auth.js` is an optional package in the JavaScript SDK.  No one can fix naive braggarts and almighty gatekeeper attitudes (who make themselves immune from their own Code of Conduct), so I made no further defense and built what I needed instead.
 
-Because I'm apparently too dumb to contribute to that other project, I now have this separate package as opposed to a PR.  It's not a fork either because I rewrote the entire shebang while expanding the features.  Seriously, nothing was worth saving (maybe they were right that I don't understand how any of this works... yup... I certainly didn't understand how code like theirs could lead to a useful tool).  So, welcome to the less-better way!  If you're moving from that other project, you can find an overview of my less-better changes in the [CHANGELOG](CHANGELOG.md#010---2021-04-05).
+Because I'm apparently too dumb to contribute to that other project, I now have this separate package as opposed to a PR.  It's not a fork either because I rewrote the entire shebang while expanding the features.  Seriously, nothing was worth saving (maybe they were right that I don't understand how any of this works... yup... I certainly didn't understand how code like theirs could lead to a useful tool).  So, welcome to the less-better way.  If you're moving from that other project, you can find an overview of my less-better changes in the [CHANGELOG](CHANGELOG.md#010---2021-04-05).
 
 No authoritarianism here.  If you just want to get some rapid prototyping done before adding auth... great!  If you understand how to manage public repos of disposable data... that's your business, not mine.  I won't try to stop you or lecture you.  I also won't try to dictate how you should manage your incoming data or anything else of the sort.  Your data-engineering patterns are your business.  How you choose to keep logins alive is also your business (no unwanted timers here).  For those who want to mod my code, I hope you find it concise and clear.  I don't write valley-girl code and other silliness such as single-line/single-use functions.
 
@@ -29,7 +29,7 @@ If anyone wants to help me make this even more less better... cool.
 
 If you want to steal this for yet another tool... awesome.
 
-If you want to steal this for reverting into GodotFirebase... well, supporting the haughty-net is your right I suppose.
+If you want to steal this for reverting into GodotFirebase... well, supporting the haughty-net is your right, I suppose.
 
 ### Side note
 
@@ -42,7 +42,7 @@ Also, this is my first Godot project, so pardon the mess (especially in the test
 ## Installation
 
 1. Clone this repo or download the zip of it.
-2. Copy the `firebase_app_lite` folders into the `res://` folder of your game.  This is not an editor plugin so it does not need to be in the `addons` folder if you have one (and shouldn't be there if you want the class icons to display).
+2. Copy the `firebase_app_lite` folder into the `res://` folder of your game.  This is not an editor plugin so it does not need to be in the `addons` folder if you have one (and shouldn't be there if you want the class icons to display).
 3. Also copy one or more of the following folders into the `res://` folder of your game, depending on the features you need (critical: place at the same level as `firebase_app_lite`):
     - `firebase_auth_lite`
     - `firebase_database_lite`
@@ -86,7 +86,7 @@ To manipulate data you must first get a [reference](docs/database.md#firebaseref
 var ref : FirebaseReference = db.get_reference_lite("some/path/to/data")
 ```
 
-If not using [Firebase array fakies](https://firebase.googleblog.com/2014/04/best-practices-arrays-in-firebase.html) (and you shouldn't) always use `get_reference_lite()` instead of `get_reference()`.  Array fakies are a headache to code for.  The light version of this method still supports them as whole objects in case that fits your use case for them.  Otherwise, the heavier version makes a good effort in supporting array fakies in all sorts of crazy ways... but testing it fully has exhausted me a bit too much for a feature I don't need.  Maybe someone with a bigger brain will tackle it harder (or rewrite it the lazier-but-slower way).
+You should always use `get_reference_lite()` instead of `get_reference()` if not using [Firebase array fakies](https://firebase.googleblog.com/2014/04/best-practices-arrays-in-firebase.html) (and you shouldn't be using them).  Array fakies are a headache to code for behind the scenes.  If you do use array fakies, the lite version of this method still supports them somewhat (as whole objects) in case that fits your use case for them.  Otherwise, the heavier version makes a good effort in supporting array fakies in all sorts of crazy ways... but testing it fully has exhausted me a bit too much for a feature I don't need.  Too many edge cases.  Maybe someone with a bigger brain will tackle it harder (or rewrite it the lazier-but-slower way).
 
 After you get a ref to a node, you can start issuing [CRUD methods](docs/database.md#ref-methods) against it.
 
@@ -131,14 +131,14 @@ ref.connect("child_removed", self, "_do_something_elser")
 ref.enable_listener()
 ```
 
-You can skip the yield to `enable_listener()` if all you need from it is the signaling (which can be connect beforehand if you like).  Note: enabling a listener will trigger a `"child_added"` signal for each existing child, followed by a single `"value_changed"` signal.  If you don't want these initial `"child_added"` signals, connect that signal after `enable_listener()` has finished (by yielding to it or by waiting for the first `"value_changed"` signal).
+Like shown above, you can skip the yield on `enable_listener()` if you don't need to wait for initial signaling to finish.  Signals can be connected before or after enabling the listener, depending on your needs.  Note that enabling a listener will trigger a `"child_added"` signal for each existing child, followed by a single `"value_changed"` signal.  If you don't need these initial `"child_added"` signals, connect the `"child_added"` signal after `enable_listener()` has finished (by yielding it until `"completed"`, or by connecting and waiting for that first `"value_changed"` signal).
 
 ### Auth
 
 If you need to enable the auth service, make a call to `firebase.auth()`.  From there, call the [auth methods](docs/auth.md#methods) you need.  For example:
 
 ```gdscript
-# Get a reference to the database service.
+# Get a reference to the auth service.
 var auth : FirebaseAuth = firebase.auth()
 
 # Sign a user in.
@@ -150,14 +150,14 @@ else:
     print(user.email)
 ```
 
-Currently, only email/password and anonymous authentications are supported -- and only by the Firebase's built-in email/password handler.
+Currently, only email/password and anonymous authentications are supported -- and only by Firebase's built-in email/password handler.
 
 ### Type casting
 
 Due to various limitations and/or nuances with GDScript, precise typing of the return objects from many methods in this SDK is not possible.  Thus, if you want better autocompletion with some variables, you will need to cast them as their specific type yourself.  For example:
 
 ```gdscript
-db = firebase.database() as FirebaseDatabase
+var db = firebase.database() as FirebaseDatabase
 ```
 
 or
@@ -201,7 +201,7 @@ You can also try to derive how to use this from `tester_app.gd` in the GitHub re
 
 ### Differences from the JavaScript SDK
 
-As the name suggests, Godot Firebase Lite is not nearly as feature-complete as, say, the JS SDK.  Not even close.  The bits that _are_ here, however, seem to cover the most-likely use-cases well.  Building a full version looks like it might require 40x the code... and I only need a tool that is merely good enough.
+As the name suggests, Godot Firebase Lite is not nearly as feature-complete as, say, the JS SDK.  Not even close.  The bits that _are_ here, however, seem to cover the most likely use-cases well.  Building a full version looks like it might require 40x the code... and I only need a tool that is merely good enough.
 
 Primarily, anything related to priority data, ordering, filtering, and transactions (ETags), is not here.  Some of that you can do in GDScript if you need it.  Some of that may be added in the future.
 

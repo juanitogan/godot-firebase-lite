@@ -15,6 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- Don't forget to change version in firebase.gd, README.md, and footer here. -->
 
+## [0.1.1] - 2021-12-04
+
+### FirebaseDatabaseLite API:
+
+### Fixed
+- `disable_listener()` frees the listener object after closing it, making it available for re-enabling.  This was a TODO I missed... or just got lazy with.
+
+
 ## [0.1.0] - 2021-04-05
 
 This is a total rewrite of the Firebase Realtime Database and Auth code found at [GodotFirebase commit #151](https://github.com/GodotNuts/GodotFirebase/commit/0dcabd4f410058c656d3f000ad733990edf42e3c).  All other non-RTDB code has been removed as I don't need it and, given this redux, it will not work with the new (old) paradigm presented here.
@@ -89,6 +97,6 @@ Also, if coming from that other project, don't forget to delete it's lines from 
 
 
 
-[Unreleased]: https://github.com/juanitogan/godotfirebaselite/compare/0.1.0...HEAD
-<!-- [0.1.1]: https://github.com/juanitogan/godotfirebaselite/compare/0.1.0...0.1.1 -->
+[Unreleased]: https://github.com/juanitogan/godotfirebaselite/compare/0.1.1...HEAD
+[0.1.1]: https://github.com/juanitogan/godotfirebaselite/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/juanitogan/godotfirebaselite/releases/tag/0.1.0
