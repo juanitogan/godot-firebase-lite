@@ -4,7 +4,7 @@
 
 This project currently targets [Firebase Realtime Database](https://firebase.google.com/products/realtime-database) only.
 
-I, personally, have no current plans for Cloud Firestore or Cloud Storage, but I would welcome others adding such support.  Firebase Authentication is included with limited functionality (limited in addition to being lite: email/password and anon auths only; no email link, phone, or OAuth yet).
+I, personally, have no current plans for Cloud Firestore or Cloud Storage, but I would welcome others adding such support.  Firebase Authentication is included with limited functionality (supported: email/password and anon auth; not supported yet: email link, phone, and OAuth).
 
 Requires Godot 3.3.0 (rc6+) and later for the listeners to work in HTML5 exports.
 Otherwise, Godot 3.?.x should suffice.
